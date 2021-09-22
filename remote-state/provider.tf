@@ -1,10 +1,10 @@
-# terraform {
-#   backend "s3" {
-#     bucket = var.bucket_name
-#     key    = var.key_name
-#     region = var.region_name
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket = "chases-project-bucket"
+    key    = "remote-state/terraform.tfstate" 
+    region = "us-east-1"
+  }
+}
 
 provider "aws" {
   region = var.region_name
