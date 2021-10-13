@@ -42,13 +42,26 @@ resource "aws_eip" "main_b" {
 resource "aws_route_table" "main_ig" {
   vpc_id = aws_vpc.main.id
 
-  route = [
-    {
-      cidr_block = "0.0.0.0/0"
-      gateway_id = aws_internet_gateway.gw.id
-    }
-  ]
+  route = []
 }
+
+resource "aws_route" "public_route" {
+  route_table_id         = aws_route_table.main_ig.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw.id
+
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.main["public_subnet_1"].id
+  route_table_id = aws_route_table.main_ig.id
+}
+
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.main["public_subnet_2"].id
+  route_table_id = aws_route_table.main_ig.id
+}
+
 # resource "aws_route_table" "example" {
 # vpc_id = aws_vpc.example.id
 
